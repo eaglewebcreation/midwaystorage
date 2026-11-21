@@ -9,6 +9,7 @@ pieces (header, footer, unit cards, schema) and the owner facts in
     SITE_URL=https://midwaystorage.eaglewebcreation.com python3 tools/build_site.py   # preview
 """
 import datetime
+import hashlib
 import html
 import json
 import os
@@ -49,6 +50,7 @@ def minify_css(s):
     return s.replace(";}", "}").strip()
 
 
+JS_V = hashlib.sha1((PUB / "assets" / "js" / "site.js").read_bytes()).hexdigest()[:8]
 CSS_MIN = minify_css((ROOT / "src" / "site.css").read_text())
 
 ICON = {
@@ -430,7 +432,7 @@ def page(path, title, desc, body, *, current=None, schema=(), door=False, noinde
 <!-- Search Console / Bing: set "googleSiteVerification" / "bingSiteVerification" in site-config.json CONFIRM and rebuild. GA4: set "ga4MeasurementId". -->
 {verif}{ga}
 {ld}
-<script src="/assets/js/site.js" defer></script>
+<script src="/assets/js/site.js?v={JS_V}" defer></script>
 </head>
 <body>
 {header(current)}

@@ -58,7 +58,7 @@ for f in files:
         if not (target.is_file() or (target / "index.html").is_file()):
             ok = False
             print("  BROKEN", f.relative_to(PUB), href)
-    for src in re.findall(r'(?:src|srcset)="(/[^" ]+)', s):
+    for src in re.findall(r'(?:src|srcset)="(/[^" ?]+)', s):
         if not (PUB / src.lstrip("/")).is_file():
             ok = False
             print("  MISSING", f.relative_to(PUB), src)
