@@ -253,7 +253,7 @@ def business_schema():
             {"@type": "AdministrativeArea", "name": "Big Horn County, Wyoming"},
             {"@type": "AdministrativeArea", "name": "Park County, Wyoming"},
             {"@type": "AdministrativeArea", "name": "Carbon County, Montana"}],
-        "priceRange": f"${low:,.2f} - ${high:,.2f} per month",
+        "priceRange": f"${low:,.0f} - ${high:,.0f} per month",
         "currenciesAccepted": "USD",
         "paymentAccepted": "Credit card, debit card, ACH bank draft",
         "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": n, "value": True}
