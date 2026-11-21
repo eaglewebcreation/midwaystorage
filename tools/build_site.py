@@ -544,7 +544,7 @@ def build_home():
       <a class="btn btn-line" href="/storage-units/">All 15 sizes &amp; prices</a>
     </div>
     {"<div class='units'>" + "".join(unit_card(u) for u in feats) + "</div>"}
-    <p class="note mt">Prices and availability as shown on our rental site in {AS_OF}. The rental page always has the current price.</p>
+    <p class="note mt">Base monthly rent and availability as of {AS_OF}. The rental page shows the current total, including the payment fee.</p>
   </div>
 </section>
 <section class="section section-concrete" aria-labelledby="why-h">
@@ -625,7 +625,7 @@ def build_units():
         + (f'<td class="st-rent">Open to rent</td></tr>' if u["status"] == "rent" else '<td class="st-wait">Waitlist</td></tr>')
         for u in C["units"])
     trail = [("Home", "/"), ("Units &amp; Prices", "/storage-units/")]
-    body = f'''{page_hero("Units &amp; prices", "Storage unit sizes and prices", f"Eleven drive-up unit sizes, three shops and outdoor parking at Midway Storage in Lovell. Prices below are monthly, as shown on our rental site in {AS_OF}.", trail)}
+    body = f'''{page_hero("Units &amp; prices", "Storage unit sizes and prices", f"Eleven drive-up unit sizes, three shops and outdoor parking at Midway Storage in Lovell. Prices below are base monthly rent as of {AS_OF}, before payment fees.", trail)}
 <section class="section" aria-labelledby="std-h">
   <div class="wrap">
     <div class="section-head"><h2 id="std-h">Drive-up storage units</h2>
@@ -664,7 +664,7 @@ def build_units():
       <caption class="visually-hidden">Monthly prices at Midway Storage, {AS_OF}</caption>
       <thead><tr><th scope="col">Space</th><th scope="col">Size (W x D x H)</th><th scope="col" class="num">Monthly rent</th><th scope="col">Status</th></tr></thead>
       <tbody>{rows}</tbody></table></div>
-    <p class="note">Prices and availability as shown on our rental site in {AS_OF}. The <a href="{RENT}">rental page</a> always has the current price.</p>
+    <p class="note">Base monthly rent and availability as of {AS_OF}. The <a href="{RENT}">rental page</a> shows the current total, including the payment fee.</p>
   </div>
 </section>
 <section class="section section-concrete" aria-labelledby="how-h">
