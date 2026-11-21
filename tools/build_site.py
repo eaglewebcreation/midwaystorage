@@ -375,7 +375,8 @@ def page(path, title, desc, body, *, current=None, schema=(), door=False, noinde
     boot = ("(function(d){d.className+=' js';try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)"
             "d.className+=' door-play'}catch(e){}})(document.documentElement)") if door else \
         "document.documentElement.className+=' js'"
-    robots = ('<meta name="robots" content="noindex">' if noindex
+    staging = SITE != C["siteUrl"].rstrip("/")
+    robots = ('<meta name="robots" content="noindex, nofollow">' if noindex or staging
               else '<meta name="robots" content="index, follow, max-image-preview:large">')
     canonical = "" if noindex else f'<link rel="canonical" href="{url}">'
     pre = f'<link rel="preload" as="image" type="image/webp" href="{preload}" fetchpriority="high">' if preload else ""
@@ -948,7 +949,10 @@ def build_root_files():
     urls = "\n".join(f"  <url><loc>{SITE}{p}</loc><lastmod>{TODAY}</lastmod></url>" for p in PAGES)
     (PUB / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?>\n'
                                      '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls + "\n</urlset>\n")
-    (PUB / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
+    if SITE != C["siteUrl"].rstrip("/"):
+        (PUB / "robots.txt").write_text("# Preview copy. Not for search engines.\nUser-agent: *\nDisallow:\n")
+    else:
+        (PUB / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\nSitemap: {SITE}/sitemap.xml\n")
     (PUB / "site.webmanifest").write_text(json.dumps({
         "name": "Midway Storage", "short_name": "Midway Storage",
         "icons": [{"src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png"},
