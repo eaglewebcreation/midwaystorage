@@ -39,7 +39,7 @@ p{margin:0 0 1.05em}
 ul,ol{margin:0 0 1.05em;padding-left:1.2em}
 strong{color:var(--ink)}
 :focus-visible{outline:3px solid var(--door);outline-offset:3px}
-.dark :focus-visible{outline-color:#fff}
+:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) *:focus-visible{outline-color:#fff}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--gutter)}
 .narrow{max-width:800px}
 .skip-link{position:absolute;left:12px;top:-60px;z-index:300;background:var(--ink);color:#fff;padding:10px 16px;font-weight:700;text-decoration:none}
@@ -50,7 +50,7 @@ strong{color:var(--ink)}
 /* Tri-stripe marker (the logo's three bars) */
 .kicker{display:inline-flex;align-items:center;gap:12px;font-family:var(--head);font-weight:800;font-stretch:112%;text-transform:uppercase;letter-spacing:.14em;font-size:.78rem;color:var(--red2);margin-bottom:14px}
 .kicker::before{content:"";width:34px;height:12px;background:var(--stripes);transform:skewX(-24deg);flex:none}
-.dark .kicker{color:#ff8f7f}
+:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) .kicker{color:#ff8f7f}
 
 /* Buttons: slanted ends like the logo bars */
 .btn{position:relative;z-index:0;display:inline-flex;align-items:center;justify-content:center;gap:9px;min-height:50px;padding:12px 28px;border:0;background:none;font-family:var(--head);font-stretch:110%;font-weight:800;font-size:.92rem;letter-spacing:.04em;text-transform:uppercase;line-height:1.15;text-decoration:none;cursor:pointer;color:#fff;transition:color .15s}
@@ -61,8 +61,8 @@ strong{color:var(--ink)}
 .btn-dark:hover{color:#fff}.btn-dark:hover::before{background:var(--red2);border-color:var(--red2)}
 .btn-line{color:var(--ink)}.btn-line::before{border-color:var(--ink)}
 .btn-line:hover{color:#fff}.btn-line:hover::before{background:var(--ink)}
-.dark .btn-line{color:#fff}.dark .btn-line::before{border-color:#fff}
-.dark .btn-line:hover{color:var(--ink)}.dark .btn-line:hover::before{background:#fff}
+:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) .btn-line{color:#fff}:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) .btn-line::before{border-color:#fff}
+:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) .btn-line:hover{color:var(--ink)}:is(.dark,.hero,.cta-band,.drive-card,.section-dark,.page-hero) .btn-line:hover::before{background:#fff}
 .btn svg{width:18px;height:18px;flex:none}
 .btn-row{display:flex;flex-wrap:wrap;gap:14px 18px;align-items:center}
 .btn-sm{min-height:42px;padding:9px 18px;font-size:.8rem}
