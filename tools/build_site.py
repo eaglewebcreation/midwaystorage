@@ -226,8 +226,8 @@ def num(p):
 
 
 def business_schema():
-    low = min(num(u["ach"]) for u in C["units"])
-    high = max(num(u["card"]) for u in C["units"])
+    low = min(num(u["rent"]) for u in C["units"])
+    high = max(num(u["rent"]) for u in C["units"])
     s = {
         "@context": "https://schema.org",
         "@type": "SelfStorage",
@@ -266,9 +266,9 @@ def business_schema():
                 "name": unit_title(u),
                 "url": C["rentUrl"],
                 "availability": "https://schema.org/InStock" if u["status"] == "rent" else "https://schema.org/LimitedAvailability",
-                "priceSpecification": {"@type": "UnitPriceSpecification", "price": num(u["ach"]),
+                "priceSpecification": {"@type": "UnitPriceSpecification", "price": num(u["rent"]),
                                        "priceCurrency": "USD", "unitCode": "MON",
-                                       "description": f"ACH price. Card ${u['card']}."},
+                                       "description": "Base monthly rent before card or ACH payment fees."},
             } for u in C["units"]]},
     }
     if K.get("email"):
@@ -329,7 +329,7 @@ def unit_card(u, h="h3", plan=True):
     return f'''<article class="unit-card" data-group="{unit_group(u)}" data-status="{u["status"]}">
   <div class="unit-top"><div><{h}>{html.escape(u["name"])}</{h}><p class="unit-dims">{dims}</p></div>{badge}</div>
   {pic}{extra}
-  <p class="unit-price"><strong>${u["card"]}</strong>/mo by card<br>${u["ach"]}/mo by ACH bank draft</p>
+  <div class="unit-price"><p class="price-main"><strong>${u["rent"]}</strong><span>/month</span></p><p class="price-ach">Before card or ACH payment fees</p></div>
   <a class="btn btn-dark btn-sm" href="{RENT}">{btn}<span class="visually-hidden">: {html.escape(u["name"])}</span></a>
 </article>'''
 
@@ -475,9 +475,9 @@ FAQ = [
     ("How do I pay my bill?",
      f'<p>Sign in to the <a href="{SIGNIN}">tenant portal</a> to pay online. Tenants tell us automatic payments '
      "are easy to set up there, so you never have to think about the due date.</p>", "pay"),
-    ("Why are there two prices for each unit?",
-     "<p>The lower price is for paying by ACH bank draft and the higher price is for paying by credit or debit "
-     f"card. Both are listed on the <a href=\"/storage-units/\">units and prices page</a> (prices as of {AS_OF}).</p>",
+    ("Why is the total on the rental site a little higher?",
+     "<p>Prices on this site are the base monthly rent. The rental site adds a small payment fee, and the fee is "
+     f"lower for ACH bank draft than for a credit or debit card. See every size on the <a href=\"/storage-units/\">units and prices page</a> (prices as of {AS_OF}).</p>",
      "two-prices"),
     ("What if the size I want shows Waitlist?",
      f'<p>Join the waitlist for that size on the <a href="{RENT}">rental page</a> and you will be contacted when '
@@ -609,7 +609,7 @@ def build_home():
     {map_embed()}
   </div>
 </section>
-{cta_band("Got stuff that needs a home?", "Units from $" + UNITS["A"]["ach"] + " a month with 24/7 access and no long-term commitment.")}'''
+{cta_band("Got stuff that needs a home?", "Units from $" + UNITS["A"]["rent"] + " a month with 24/7 access and no long-term commitment.")}'''
     page("/", "Storage Units in Lovell, WY | Midway Storage",
          "Drive-up storage units in Lovell, WY from 8x15 to 14x45, up to 15 ft tall, plus shops and parking. 24/7 access, no long-term contract, rent online.",
          body, current="/", door=True, preload="/assets/img/unit-l12-593.webp")
@@ -621,7 +621,8 @@ def build_units():
     v = C["ventures"]
     rows = "".join(
         f'<tr><td>{html.escape(u["name"])}</td><td>{u["w"]} x {u["d"]}' + (f' x {u["h"]}' if u["h"] else "")
-        + f' ft</td><td>${u["card"]}</td><td>${u["ach"]}</td><td>{"Open to rent" if u["status"] == "rent" else "Waitlist"}</td></tr>'
+        + f' ft</td><td class="num">${u["rent"]}/mo</td>'
+        + (f'<td class="st-rent">Open to rent</td></tr>' if u["status"] == "rent" else '<td class="st-wait">Waitlist</td></tr>')
         for u in C["units"])
     trail = [("Home", "/"), ("Units &amp; Prices", "/storage-units/")]
     body = f'''{page_hero("Units &amp; prices", "Storage unit sizes and prices", f"Eleven drive-up unit sizes, three shops and outdoor parking at Midway Storage in Lovell. Prices below are monthly, as shown on our rental site in {AS_OF}.", trail)}
@@ -648,7 +649,7 @@ def build_units():
       <article class="unit-card">
         <div class="unit-top"><div><h3>{v["name"]}</h3><p class="unit-dims">{v["w"]} &times; {v["d"]} ft<small>{v["h"]} ft tall inside</small></p></div><span class="badge badge-rent">Open to rent</span></div>
         <p class="unit-extra">At {v["street"]}, rented through Midway Ventures</p>
-        <p class="unit-price"><strong>${v["card"]}</strong>/mo by card<br>${v["ach"]}/mo by ACH bank draft</p>
+        <div class="unit-price"><p class="price-main"><strong>${v["rent"]}</strong><span>/month</span></p><p class="price-ach">Before card or ACH payment fees</p></div>
         <a class="btn btn-dark btn-sm" href="{VRENT}">Rent the warehouse</a>
         <!-- TODO: confirm with owner how Midway Ventures LLC relates to Midway Storage, and whether to keep this card -->
       </article>
@@ -659,9 +660,9 @@ def build_units():
 <section class="section" aria-labelledby="all-h">
   <div class="wrap">
     <div class="section-head"><h2 id="all-h">Every size at a glance</h2></div>
-    <div class="table-scroll"><table>
+    <div class="table-scroll"><table class="price-table">
       <caption class="visually-hidden">Monthly prices at Midway Storage, {AS_OF}</caption>
-      <thead><tr><th scope="col">Space</th><th scope="col">Size (W x D x H)</th><th scope="col">Card</th><th scope="col">ACH</th><th scope="col">Status</th></tr></thead>
+      <thead><tr><th scope="col">Space</th><th scope="col">Size (W x D x H)</th><th scope="col" class="num">Monthly rent</th><th scope="col">Status</th></tr></thead>
       <tbody>{rows}</tbody></table></div>
     <p class="note">Prices and availability as shown on our rental site in {AS_OF}. The <a href="{RENT}">rental page</a> always has the current price.</p>
   </div>
@@ -672,7 +673,7 @@ def build_units():
     <ul class="check-list">
       <li>Choose a size on the <a href="{RENT}">rental site</a>. Sizes marked Open to rent can be rented right away.</li>
       <li>A size marked Waitlist takes a sign-up on the same site, and you will be contacted when one opens.</li>
-      <li>Pay by ACH bank draft for the lower price, or by card. Set up autopay in the <a href="{SIGNIN}">tenant portal</a>.</li>
+      <li>Pay by ACH bank draft for the smaller payment fee, or by card. Set up autopay in the <a href="{SIGNIN}">tenant portal</a>.</li>
       <li>No long-term commitment. Access is 24/7 from the day you move in.</li>
     </ul>
   </div>
@@ -762,7 +763,7 @@ TOWN_PAGES = {
                "When the stuff gets bigger, the M units give you 14 feet of height for the camper or the ranch truck with a rack."],
         units=["A", "C", "M"],
         faq=[("Is there storage right in Lovell?", "<p>Yes. Midway Storage is on US-310 at the west edge of Lovell, a few minutes from downtown.</p>", "lovell-close"),
-             ("What is the smallest unit?", f"<p>The C unit is 8 x 15 feet with 8-foot ceilings, ${UNITS['C']['ach']} a month by ACH as of {AS_OF}.</p>", "lovell-small"),
+             ("What is the smallest unit?", f"<p>The C unit is 8 x 15 feet with 8-foot ceilings, ${UNITS['C']['rent']} a month before payment fees as of {AS_OF}.</p>", "lovell-small"),
              ("Can I move to a bigger or smaller unit later?", "<p>Yes. Renters have moved up and down in size as their needs changed. Call and we will help you switch.</p>", "lovell-switch")],
         review="Carleen Lynch",
         cta=("Close to home, open all night", "Rent a Lovell storage unit online in a few minutes."),
@@ -961,7 +962,7 @@ def build_root_files():
                   {"src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png"}],
         "theme_color": "#2b2b2b", "background_color": "#ffffff", "display": "browser", "start_url": "/"}, indent=2))
     units = "\n".join(f'- {u["name"]}: {u["w"]} x {u["d"]}' + (f' x {u["h"]}' if u["h"] else "")
-                      + f' ft, ${u["card"]}/mo card, ${u["ach"]}/mo ACH, {"open to rent" if u["status"] == "rent" else "waitlist"}'
+                      + f' ft, ${u["rent"]}/mo before payment fees, {"open to rent" if u["status"] == "rent" else "waitlist"}'
                       for u in C["units"])
     drives = "\n".join(f'- {t["name"]}, {t["st"]}: {t["drive"]} ({t["mi"]})' for t in TOWNS)
     pages = "\n".join(f"- {SITE}{p}" for p in PAGES)
@@ -976,7 +977,7 @@ def build_root_files():
 - Coordinates: {C["lat"]}, {C["lng"]}
 - Access: 24 hours a day, 7 days a week; no fence or gate
 - Contract: no long-term commitment
-- Payment: credit/debit card or ACH bank draft (ACH is lower); autopay available in the tenant portal
+- Payment: credit/debit card or ACH bank draft; prices listed are base rent and the rental site adds a payment fee (smaller for ACH); autopay available in the tenant portal
 - Rent a unit or join a waitlist: {C["rentUrl"]}
 - Tenant sign in / pay bill: {C["signInUrl"]}
 - Heated: only the 42x42 heated shop is listed as heated
@@ -984,7 +985,7 @@ def build_root_files():
 
 ## Units and monthly prices (as of {AS_OF})
 {units}
-- Midway Ventures warehouse (1781 US Highway 310, rented through Midway Ventures LLC): 36 x 45 x 16 ft, ${C["ventures"]["card"]}/mo card, ${C["ventures"]["ach"]}/mo ACH: {C["venturesRentUrl"]}
+- Midway Ventures warehouse (1781 US Highway 310, rented through Midway Ventures LLC): 36 x 45 x 16 ft, ${C["ventures"]["rent"]}/mo before payment fees: {C["venturesRentUrl"]}
 
 ## Drive times to the facility (fastest Google Maps route)
 {drives}

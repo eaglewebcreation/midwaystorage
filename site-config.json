@@ -17,7 +17,10 @@
   "venturesPhoneDisplay": "(307) 272-7444",
   "venturesPhoneTel": "+13072727444",
   "pricesAsOf": "November 2026",
-  "google": {"rating": "4.9", "count": 38},
+  "google": {
+    "rating": "4.9",
+    "count": 38
+  },
   "CONFIRM": {
     "_note": "null = not confirmed by the owner yet; the site shows a visible placeholder.",
     "email": null,
@@ -26,21 +29,190 @@
     "ownerNames": null
   },
   "units": [
-    {"id": "A", "name": "A unit", "w": 9, "d": 15, "h": 8, "card": "67.59", "ach": "66.14", "status": "rent"},
-    {"id": "C", "name": "C unit", "w": 8, "d": 15, "h": 8, "card": "67.59", "ach": "66.14", "status": "rent"},
-    {"id": "D", "name": "D unit", "w": 9, "d": 16, "h": 8, "card": "77.99", "ach": "76.31", "status": "waitlist"},
-    {"id": "G", "name": "G unit", "w": 10, "d": 16, "h": 8, "card": "88.39", "ach": "86.49", "status": "rent"},
-    {"id": "B", "name": "B unit", "w": 10, "d": 20, "h": 9, "card": "98.79", "ach": "96.66", "status": "waitlist"},
-    {"id": "F", "name": "F unit", "w": 11, "d": 20, "h": 9, "card": "103.99", "ach": "101.75", "status": "waitlist", "note": "11.5 ft wide inside"},
-    {"id": "S", "name": "S unit", "w": 14, "d": 26, "h": 11, "card": "150.79", "ach": "147.54", "status": "rent"},
-    {"id": "E", "name": "E unit", "w": 12, "d": 30, "h": 11, "card": "155.99", "ach": "152.63", "status": "waitlist"},
-    {"id": "M", "name": "M unit", "w": 14, "d": 30, "h": 14, "card": "161.18", "ach": "157.71", "status": "rent"},
-    {"id": "L", "name": "L unit", "w": 14, "d": 34, "h": 14, "card": "171.58", "ach": "167.89", "status": "rent"},
-    {"id": "XL", "name": "XL unit", "w": 14, "d": 45, "h": 15, "card": "233.98", "ach": "228.94", "status": "waitlist", "note": "12 ft wide x 14 ft tall door"},
-    {"id": "SHOP", "name": "Shop storage", "w": 12, "d": 40, "h": 12, "card": "259.98", "ach": "254.38", "status": "waitlist", "kind": "shop"},
-    {"id": "HEAT", "name": "Heated shop", "w": 42, "d": 42, "h": 13, "card": "1,351.87", "ach": "1,322.75", "status": "waitlist", "kind": "shop", "note": "Heated"},
-    {"id": "BIG", "name": "Large shop", "w": 36, "d": 45, "h": 16, "card": "1,710.64", "ach": "1,673.79", "status": "waitlist", "kind": "shop"},
-    {"id": "PARK", "name": "Outside parking", "w": 8, "d": 25, "h": 0, "card": "77.99", "ach": "76.31", "status": "waitlist", "kind": "parking", "note": "Unsecured outdoor space"}
+    {
+      "id": "A",
+      "name": "A unit",
+      "w": 9,
+      "d": 15,
+      "h": 8,
+      "card": "67.59",
+      "ach": "66.14",
+      "status": "rent",
+      "rent": "65"
+    },
+    {
+      "id": "C",
+      "name": "C unit",
+      "w": 8,
+      "d": 15,
+      "h": 8,
+      "card": "67.59",
+      "ach": "66.14",
+      "status": "rent",
+      "rent": "65"
+    },
+    {
+      "id": "D",
+      "name": "D unit",
+      "w": 9,
+      "d": 16,
+      "h": 8,
+      "card": "77.99",
+      "ach": "76.31",
+      "status": "waitlist",
+      "rent": "75"
+    },
+    {
+      "id": "G",
+      "name": "G unit",
+      "w": 10,
+      "d": 16,
+      "h": 8,
+      "card": "88.39",
+      "ach": "86.49",
+      "status": "rent",
+      "rent": "85"
+    },
+    {
+      "id": "B",
+      "name": "B unit",
+      "w": 10,
+      "d": 20,
+      "h": 9,
+      "card": "98.79",
+      "ach": "96.66",
+      "status": "waitlist",
+      "rent": "95"
+    },
+    {
+      "id": "F",
+      "name": "F unit",
+      "w": 11,
+      "d": 20,
+      "h": 9,
+      "card": "103.99",
+      "ach": "101.75",
+      "status": "waitlist",
+      "note": "11.5 ft wide inside",
+      "rent": "100"
+    },
+    {
+      "id": "S",
+      "name": "S unit",
+      "w": 14,
+      "d": 26,
+      "h": 11,
+      "card": "150.79",
+      "ach": "147.54",
+      "status": "rent",
+      "rent": "145"
+    },
+    {
+      "id": "E",
+      "name": "E unit",
+      "w": 12,
+      "d": 30,
+      "h": 11,
+      "card": "155.99",
+      "ach": "152.63",
+      "status": "waitlist",
+      "rent": "150"
+    },
+    {
+      "id": "M",
+      "name": "M unit",
+      "w": 14,
+      "d": 30,
+      "h": 14,
+      "card": "161.18",
+      "ach": "157.71",
+      "status": "rent",
+      "rent": "155"
+    },
+    {
+      "id": "L",
+      "name": "L unit",
+      "w": 14,
+      "d": 34,
+      "h": 14,
+      "card": "171.58",
+      "ach": "167.89",
+      "status": "rent",
+      "rent": "165"
+    },
+    {
+      "id": "XL",
+      "name": "XL unit",
+      "w": 14,
+      "d": 45,
+      "h": 15,
+      "card": "233.98",
+      "ach": "228.94",
+      "status": "waitlist",
+      "note": "12 ft wide x 14 ft tall door",
+      "rent": "225"
+    },
+    {
+      "id": "SHOP",
+      "name": "Shop storage",
+      "w": 12,
+      "d": 40,
+      "h": 12,
+      "card": "259.98",
+      "ach": "254.38",
+      "status": "waitlist",
+      "kind": "shop",
+      "rent": "250"
+    },
+    {
+      "id": "HEAT",
+      "name": "Heated shop",
+      "w": 42,
+      "d": 42,
+      "h": 13,
+      "card": "1,351.87",
+      "ach": "1,322.75",
+      "status": "waitlist",
+      "kind": "shop",
+      "note": "Heated",
+      "rent": "1,300"
+    },
+    {
+      "id": "BIG",
+      "name": "Large shop",
+      "w": 36,
+      "d": 45,
+      "h": 16,
+      "card": "1,710.64",
+      "ach": "1,673.79",
+      "status": "waitlist",
+      "kind": "shop",
+      "rent": "1,645"
+    },
+    {
+      "id": "PARK",
+      "name": "Outside parking",
+      "w": 8,
+      "d": 25,
+      "h": 0,
+      "card": "77.99",
+      "ach": "76.31",
+      "status": "waitlist",
+      "kind": "parking",
+      "note": "Unsecured outdoor space",
+      "rent": "75"
+    }
   ],
-  "ventures": {"name": "Midway Ventures warehouse", "w": 36, "d": 45, "h": 16, "card": "1,299.88", "ach": "1,271.88", "status": "rent", "street": "1781 US Highway 310"}
+  "ventures": {
+    "name": "Midway Ventures warehouse",
+    "w": 36,
+    "d": 45,
+    "h": 16,
+    "card": "1,299.88",
+    "ach": "1,271.88",
+    "status": "rent",
+    "street": "1781 US Highway 310",
+    "rent": "1,250"
+  },
+  "priceNote": "Base monthly rent before card or ACH payment fees. Owner (via Talon, Nov 21) confirmed A/C = $65; the rest backed out of CCStorage card totals (card = rent x 1.04, ACH = rent x 1.0175)."
 }

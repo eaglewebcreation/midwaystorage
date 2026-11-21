@@ -203,7 +203,7 @@ strong{color:var(--ink)}
 .units{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
 .unit-card{position:relative;display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);padding:20px 20px 18px}
 .unit-card[hidden]{display:none}
-.unit-top{display:flex;flex-wrap:wrap-reverse;justify-content:space-between;align-items:flex-start;gap:8px 10px;margin-bottom:12px}
+.unit-top{display:flex;flex-direction:column-reverse;align-items:flex-start;gap:10px;margin-bottom:12px}
 .unit-card h3{margin:0;font-size:1.15rem}
 .unit-dims{white-space:nowrap;font-family:var(--head);font-stretch:118%;font-weight:900;font-size:1.4rem;color:var(--ink);line-height:1.1;margin:2px 0 0}
 .unit-dims small{font-family:var(--body);font-weight:600;font-size:.82rem;color:var(--muted);display:block;margin-top:3px;letter-spacing:0}
@@ -215,8 +215,11 @@ strong{color:var(--ink)}
 .plan .guide{stroke:var(--red3);stroke-width:2.2}
 .plan .doorline{stroke:var(--door);stroke-width:4}
 .plan .lbl{font:700 10px var(--body);fill:#555}
-.unit-price{margin:auto 0 12px;font-size:.95rem;color:var(--muted)}
-.unit-price strong{font-family:var(--head);font-stretch:112%;font-weight:900;font-size:1.5rem;color:var(--ink)}
+.unit-price{margin:auto 0 14px;padding-top:12px;border-top:1px solid var(--line)}
+.price-main{margin:0;display:flex;align-items:baseline;gap:4px;color:var(--muted);font-size:.95rem}
+.price-main strong{font-family:var(--head);font-stretch:112%;font-weight:900;font-size:1.6rem;line-height:1;color:var(--ink)}
+.price-ach{margin:4px 0 0;font-size:.86rem;color:var(--muted)}
+.price-ach b{font-weight:700;color:var(--ink)}
 .unit-card .btn{align-self:flex-start}
 .unit-extra{font-size:.88rem;font-weight:700;color:var(--red2);margin:-4px 0 8px}
 .filters{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 26px;padding:0;list-style:none}
@@ -359,6 +362,20 @@ strong{color:var(--ink)}
 .table-scroll{overflow-x:auto}
 table{border-collapse:collapse;width:100%;font-size:.98rem}
 th,td{text-align:left;padding:11px 12px;border-bottom:1px solid var(--line)}
+.price-table td,.price-table th{white-space:nowrap}
+.price-table td:first-child{font-weight:700;color:var(--ink)}
+.price-table .num{text-align:right;font-variant-numeric:tabular-nums}
+.price-table .st-rent{color:var(--ok);font-weight:700}
+.price-table .st-wait{color:#8a5a00;font-weight:700}
+@media (max-width:640px){
+.price-table thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.price-table,.price-table tbody{display:block}
+.price-table tr{display:grid;grid-template-columns:1fr auto;gap:2px 12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.price-table td{display:block;padding:0;border:0;text-align:left}
+.price-table td:nth-child(2){grid-column:1;grid-row:2;color:var(--muted);font-size:.9rem}
+.price-table td:nth-child(3){grid-column:2;grid-row:1;text-align:right;font-weight:700;color:var(--ink)}
+.price-table td:nth-child(4){grid-column:2;grid-row:2;text-align:right;font-size:.86rem}
+}
 th{font-family:var(--head);font-stretch:108%;font-size:.86rem;color:var(--ink);background:var(--concrete)}
 .center{text-align:center}
 .mt{margin-top:28px}
