@@ -61,13 +61,13 @@ ICON = {
 # ---------------------------------------------------------------- towns
 # drive = fastest Google Maps route from the facility, read 2026-11-21
 TOWNS = [
-    {"slug": "lovell", "url": "/storage-lovell-wy/", "name": "Lovell", "st": "WY", "drive": "about 5 minutes", "mi": "about 3 miles"},
-    {"slug": "powell", "url": "/storage-powell-wy/", "name": "Powell", "st": "WY", "drive": "22 minutes", "mi": "19.6 miles"},
-    {"slug": "cody", "url": "/storage-cody-wy/", "name": "Cody", "st": "WY", "drive": "47 minutes", "mi": "43.4 miles"},
-    {"slug": "greybull", "url": "/storage-greybull-wy/", "name": "Greybull", "st": "WY", "drive": "36 minutes", "mi": "35.2 miles"},
-    {"slug": "basin", "url": "/storage-basin-wy/", "name": "Basin", "st": "WY", "drive": "44 minutes", "mi": "42.8 miles"},
-    {"slug": "bridger", "url": "/storage-bridger-mt/", "name": "Bridger", "st": "MT", "drive": "42 minutes", "mi": "43.8 miles"},
-    {"slug": "billings", "url": "/storage-billings-mt/", "name": "Billings", "st": "MT", "drive": "1 hour 27 minutes", "mi": "88.3 miles"},
+    {"slug": "lovell", "url": "/storage-lovell-wy/", "name": "Lovell", "st": "WY", "drive": "about 5 minutes", "mi": "about 3 miles", "short": "3 mi"},
+    {"slug": "powell", "url": "/storage-powell-wy/", "name": "Powell", "st": "WY", "drive": "22 minutes", "mi": "19.6 miles", "short": "22 min"},
+    {"slug": "cody", "url": "/storage-cody-wy/", "name": "Cody", "st": "WY", "drive": "47 minutes", "mi": "43.4 miles", "short": "47 min"},
+    {"slug": "greybull", "url": "/storage-greybull-wy/", "name": "Greybull", "st": "WY", "drive": "36 minutes", "mi": "35.2 miles", "short": "36 min"},
+    {"slug": "basin", "url": "/storage-basin-wy/", "name": "Basin", "st": "WY", "drive": "44 minutes", "mi": "42.8 miles", "short": "44 min"},
+    {"slug": "bridger", "url": "/storage-bridger-mt/", "name": "Bridger", "st": "MT", "drive": "42 minutes", "mi": "43.8 miles", "short": "42 min"},
+    {"slug": "billings", "url": "/storage-billings-mt/", "name": "Billings", "st": "MT", "drive": "1 hour 27 minutes", "mi": "88.3 miles", "short": "1 hr 27 min"},
 ]
 TOWN = {t["slug"]: t for t in TOWNS}
 STATE = {"WY": "Wyoming", "MT": "Montana"}
@@ -295,7 +295,7 @@ def plan_svg(u, scale=5.4):
     dw, dh = u["d"] * scale, u["w"] * scale
     x, y = 12, (H - dh) / 2
     mid = y + dh / 2
-    return (f'<svg class="plan" viewBox="0 0 {W} {H}" role="img" aria-label="Floor plan to scale: '
+    return (f'<svg class="plan" viewBox="0 0 {W} {H}" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Floor plan to scale: '
             f'{u["w"]} feet wide by {u["d"]} feet deep">'
             f'<rect class="slab" x="{x}" y="{y:.1f}" width="{dw:.1f}" height="{dh:.1f}"/>'
             f'<line class="guide" x1="{x + 4}" y1="{mid:.1f}" x2="{x + dw - 4:.1f}" y2="{mid:.1f}"/>'
@@ -373,7 +373,7 @@ def page(path, title, desc, body, *, current=None, schema=(), door=False, noinde
     ld = "\n".join(f'<script type="application/ld+json">{json.dumps(s, ensure_ascii=False, separators=(",", ":"))}</script>'
                    for s in [business_schema()] + list(schema))
     boot = ("(function(d){d.className+=' js';try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches)"
-            "d.className+=' door-play'}catch(e){}})(document.documentElement)") if door else \
+            "{d.className+=' door-wait';setTimeout(function(){if(!window.MW)d.classList.remove('door-wait')},6000)}}catch(e){}})(document.documentElement)") if door else \
         "document.documentElement.className+=' js'"
     staging = SITE != C["siteUrl"].rstrip("/")
     robots = ('<meta name="robots" content="noindex, nofollow">' if noindex or staging
@@ -889,14 +889,14 @@ def town_page(slug):
     story = "".join(f"<p>{p}</p>" for p in d["story"])
     others = "".join(f'<li><a href="{o["url"]}">{o["name"]}, {o["st"]}<span>{o["drive"]}</span></a></li>'
                      for o in TOWNS if o["slug"] != slug)
-    drive_line = (f'<p class="big">{t["mi"]}</p><p>from downtown {t["name"]} to the units</p>' if slug == "lovell"
-                  else f'<p class="big">{t["drive"].replace(" minutes", "")}<small>{"min" if "hour" not in t["drive"] else ""}</small></p><p>{t["mi"]} on the fastest route</p>')
+    drive_line = (f'<p class="big">{t["short"]}</p><p>From downtown {t["name"]}, about 5 minutes</p>' if slug == "lovell"
+                  else f'<p class="big">{t["short"]}</p><p>{t["mi"]} on the fastest route</p>')
     body = f'''{page_hero(d["kicker"], d["h1"], d["intro"], trail)}
 <section class="section" aria-labelledby="story-h">
   <div class="wrap split">
     <div class="prose"><h2 id="story-h">{d["story_h"]}</h2>{story}</div>
     <aside class="drive-card" aria-labelledby="drive-h">
-      <h2 id="drive-h" class="h3">{d["drive_head"]}</h2>
+      <h2 id="drive-h" class="h3">The drive from {t["name"]}</h2>
       {drive_line}
       <ol class="route">{route}</ol>
       <a class="btn btn-line btn-sm" href="{DIRECTIONS}">Directions</a>

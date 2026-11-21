@@ -1,4 +1,5 @@
 /* Midway Storage - progressive enhancement only. Every page works without this file. */
+window.MW = 1;
 (function () {
   var root = document.documentElement;
 
@@ -19,9 +20,21 @@
     });
   }
 
-  // Door failsafe: never leave the door covering the photo
-  if (root.classList.contains('door-play')) {
+  // Roll the door up once the unit is on screen (on phones it sits below the headline)
+  var bay = document.querySelector('.bay');
+  function roll() {
+    if (!root.classList.contains('door-wait')) return;
+    root.classList.remove('door-wait');
+    root.classList.add('door-play');
     setTimeout(function () { root.classList.remove('door-play'); }, 3200);
+  }
+  if (bay && root.classList.contains('door-wait')) {
+    if ('IntersectionObserver' in window) {
+      var dio = new IntersectionObserver(function (es) {
+        if (es[0].isIntersecting) { dio.disconnect(); roll(); }
+      }, { threshold: 0.45 });
+      dio.observe(bay);
+    } else { roll(); }
   }
 
   // Red guide line draws itself when it scrolls into view

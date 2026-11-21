@@ -34,7 +34,7 @@ a:hover{color:var(--ink)}
 h1,h2,h3,h4{font-family:var(--head);font-stretch:118%;color:var(--ink);line-height:1.08;margin:0 0 .55em;letter-spacing:-.01em}
 h1{font-weight:900;font-size:clamp(2.1rem,5.2vw,3.7rem)}
 h2{font-weight:900;font-size:clamp(1.6rem,3.3vw,2.4rem)}
-h3{font-weight:800;font-size:1.2rem;font-stretch:108%}
+h3,.h3{font-weight:800;font-size:1.2rem;font-stretch:108%}
 p{margin:0 0 1.05em}
 ul,ol{margin:0 0 1.05em;padding-left:1.2em}
 strong{color:var(--ink)}
@@ -141,12 +141,14 @@ strong{color:var(--ink)}
 .door-bar{position:absolute;left:0;right:0;bottom:0;height:24px;background:linear-gradient(180deg,#c9ccd1,#8d9096 70%,#6d7076);border-top:2px solid #5b5e63}
 .door-bar::before{content:"";position:absolute;left:50%;top:5px;width:84px;height:11px;margin-left:-42px;border-radius:6px;background:linear-gradient(180deg,#444,#161616)}
 .door-bar::after{content:"";position:absolute;right:11%;top:3px;width:16px;height:16px;border-radius:2px;background:radial-gradient(circle at 50% 45%,#c9c9c3 0 3px,#2a2b2d 3.5px)}
+.door-wait .door{transform:translateY(0)}
 .door-play .door{animation:door-roll 1.7s cubic-bezier(.6,.02,.22,1) .45s both}
 .door-play .bay-cap{animation:fade-up .6s ease 1.7s both}
 @keyframes door-roll{0%{transform:translateY(0)}12%{transform:translateY(1.4%)}84%{transform:translateY(-103%)}92%{transform:translateY(-99.3%)}100%{transform:translateY(-102%)}}
 @keyframes fade-up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
   .door-play .door,.door-play .bay-cap{animation:none!important}
+  .door-wait .door{transform:translateY(-102%)!important}
   .door{transform:translateY(-102%)!important}
 }
 @media (max-width:860px){
