@@ -1,6 +1,6 @@
 # Midway Storage
 
-> Drive-up self storage units, shop space and outdoor parking on US-310 in Lovell, Wyoming (Big Horn Basin). Eleven unit sizes from 8x15 to 14x45 ft, up to 15 ft tall. 24/7 access, no long-term commitment, rent and pay online.
+> Drive-up self storage units and outdoor parking on US-310 in Lovell, Wyoming (Big Horn Basin). Eleven unit sizes from 8x15 to 14x45 ft, up to 15 ft tall. 24/7 access, no long-term commitment, rent and pay online.
 
 ## Business facts
 - Name: Midway Storage, a division of Asset Holdings LLC
@@ -12,7 +12,7 @@
 - Payment: credit/debit card or ACH bank draft; prices listed are base rent and the rental site adds a payment fee (smaller for ACH); autopay available in the tenant portal
 - Rent a unit or join a waitlist: https://midwaystorage.ccstorage.com/find_units/loc_5a534a739fbe3eda662020b16b544b64
 - Tenant sign in / pay bill: https://midwaystorage.ccstorage.com/session/new
-- Heated: only the 42x42 heated shop is listed as heated
+- Heated: the drive-up units are not heated
 - Google rating: 4.9 from 38 reviews
 
 ## Units and monthly prices (as of November 2026)
@@ -27,11 +27,7 @@
 - M unit: 14 x 30 x 14 ft, $155/mo before payment fees, open to rent
 - L unit: 14 x 34 x 14 ft, $165/mo before payment fees, open to rent
 - XL unit: 14 x 45 x 15 ft, $225/mo before payment fees, waitlist
-- Shop storage: 12 x 40 x 12 ft, $250/mo before payment fees, waitlist
-- Heated shop: 42 x 42 x 13 ft, $1,300/mo before payment fees, waitlist
-- Large shop: 36 x 45 x 16 ft, $1,645/mo before payment fees, waitlist
 - Outside parking: 8 x 25 ft, $75/mo before payment fees, waitlist
-- Midway Ventures warehouse (1781 US Highway 310, rented through Midway Ventures LLC): 36 x 45 x 16 ft, $1,250/mo before payment fees: https://midwayventuresllc.ccstorage.com/find_units/loc_b07c6c20aebd052257591ce9104c7cea
 
 ## Drive times to the facility (fastest Google Maps route)
 - Lovell, WY: about 5 minutes (about 3 miles)
