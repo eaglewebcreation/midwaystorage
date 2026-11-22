@@ -249,11 +249,6 @@ strong{color:var(--ink)}
 .feature-list li:last-child{border-bottom:0}
 .feature-list strong{display:block;font-family:var(--head);font-stretch:112%;font-size:1.08rem}
 
-/* Shops */
-.shop-card{background:#fff;border:1px solid var(--line);padding:24px;border-top:6px solid var(--ink)}
-.shop-card.heated{border-top-color:var(--red2)}
-.shop-card h3{margin-bottom:4px}
-.shop-card .unit-dims{margin-bottom:10px}
 
 /* Reviews carousel: same-size cards, swipeable, Read more */
 .reviews{position:relative}

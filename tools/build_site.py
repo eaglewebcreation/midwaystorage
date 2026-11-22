@@ -28,7 +28,6 @@ PHONE = C["phoneDisplay"]
 TEL = "tel:" + C["phoneTel"]
 RENT = html.escape(C["rentUrl"], quote=True)
 SIGNIN = html.escape(C["signInUrl"], quote=True)
-VRENT = html.escape(C["venturesRentUrl"], quote=True)
 ADDR_LINE = f'{C["street"]}, {C["city"]}, {C["region"]} {C["zip"]}'
 DIRECTIONS = ("https://www.google.com/maps/dir/?api=1&amp;destination="
               "Midway+Storage,+1780+US-310,+Lovell,+WY+82431")
@@ -82,7 +81,7 @@ def city(name, st):
 # ---------------------------------------------------------------- shell pieces
 NAV = [
     ("/storage-units/", "Units &amp; Prices"),
-    ("/storage-units/#shops", "Shops &amp; Parking"),
+    ("/storage-units/#parking", "Outdoor Parking"),
     ("/#reviews", "Reviews"),
     ("/contact/", "Contact"),
 ]
@@ -136,7 +135,7 @@ def footer():
       <h2>Midway Storage</h2>
       <ul>
         <li><a href="/">Home</a></li>
-        <li><a href="/storage-units/#shops">Shops, warehouse &amp; parking</a></li>
+        <li><a href="/storage-units/#parking">Outdoor parking</a></li>
         <li><a href="/contact/">Contact &amp; directions</a></li>
         <li><a href="{DIRECTIONS}">Open in Google Maps</a></li>
       </ul>
@@ -237,7 +236,7 @@ def business_schema():
         "url": SITE + "/",
         "logo": SITE + "/assets/img/logo-640.png",
         "image": [SITE + "/assets/img/exterior-blue-1045.jpg", SITE + "/assets/img/unit-l12-593.jpg"],
-        "description": "Drive-up storage units, shop space and outdoor parking on US-310 in Lovell, Wyoming. "
+        "description": "Drive-up storage units and outdoor parking on US-310 in Lovell, Wyoming. "
                        "Eleven unit sizes from 8x15 to 14x45, units up to 15 ft tall, 24/7 access, no long-term "
                        "commitment, rent and pay online.",
         "telephone": C["phoneTel"],
@@ -258,9 +257,9 @@ def business_schema():
         "paymentAccepted": "Credit card, debit card, ACH bank draft",
         "amenityFeature": [{"@type": "LocationFeatureSpecification", "name": n, "value": True}
                            for n in ["24-hour access", "Drive-up units", "Online rental", "Online bill pay",
-                                     "Automatic payments", "Units up to 15 ft tall", "Heated shop available"]],
+                                     "Automatic payments", "Units up to 15 ft tall"]],
         "hasOfferCatalog": {
-            "@type": "OfferCatalog", "name": "Storage units and shop space",
+            "@type": "OfferCatalog", "name": "Storage units and outdoor parking",
             "itemListElement": [{
                 "@type": "Offer",
                 "name": unit_title(u),
@@ -488,15 +487,10 @@ FAQ = [
      "length from hitch to bumper, then pick a unit with room to spare. Each tall unit has a red guide line painted "
      "on the floor to help you back in straight.</p>", "rv-fit"),
     ("Are any of the units heated?",
-     "<p>The 42 x 42 heated shop is the only space we list as heated. The standard drive-up units are not heated.</p>"
-     "<!-- TODO: confirm with owner that the heated shop is the only heated space -->", "heated"),
+     "<p>No. The drive-up units are not heated.</p>", "heated"),
     ("Do you have outdoor parking?",
      "<p>Yes, 8 x 25 foot outdoor spaces for trailers and vehicles. They are open, unsecured spaces, not inside a "
      "building.</p>", "parking"),
-    ("Do you rent shop or warehouse space?",
-     "<p>Yes. There is a 12 x 40 shop storage unit, a 42 x 42 heated shop and a 36 x 45 shop with 16-foot ceilings. A "
-     "36 x 45 warehouse at 1781 US Highway 310 is rented through Midway Ventures. See "
-     '<a href="/storage-units/#shops">shops and parking</a>.</p>', "shops"),
     ("When can I reach someone in the office?",
      f'<p>Call <a href="{TEL}">{PHONE}</a>. Office hours: {office_hours_html()}</p>', "office"),
     ("Where are you located?",
@@ -514,7 +508,7 @@ def build_home():
     <div class="hero-copy">
       <span class="kicker">Lovell, Wyoming &middot; US-310</span>
       <h1 id="hero-h">Storage units in Lovell, WY <span class="accent">with room for the big stuff</span></h1>
-      <p class="hero-sub">Drive-up units from 8 x 15 to 14 x 45, shop space and outdoor parking. Get in any hour of the day, skip the long-term contract, and rent and pay online.</p>
+      <p class="hero-sub">Drive-up units from 8 x 15 to 14 x 45 and outdoor parking. Get in any hour of the day, skip the long-term contract, and rent and pay online.</p>
       <div class="btn-row"><a class="btn btn-red" href="{RENT}">{ICON["key"]}Rent a Unit Online</a><a class="btn btn-line" href="/storage-units/">See Sizes &amp; Prices</a></div>
       <ul class="hero-points"><li>24/7 access</li><li>No long-term commitment</li><li>Units up to 15 ft tall</li></ul>
     </div>
@@ -541,7 +535,7 @@ def build_home():
     <div class="section-head row">
       <div><span class="kicker">Popular sizes</span><h2 id="sizes-h">From a garage clean-out to a 40-foot fifth wheel</h2>
       <p class="lead">Every floor plan below is drawn to the same scale, so you can see how the sizes compare. The blue edge is the roll-up door and the red line is the guide line painted on the floor.</p></div>
-      <a class="btn btn-line" href="/storage-units/">All 15 sizes &amp; prices</a>
+      <a class="btn btn-line" href="/storage-units/">All {len(C["units"])} sizes &amp; prices</a>
     </div>
     {"<div class='units'>" + "".join(unit_card(u) for u in feats) + "</div>"}
     <p class="note mt">Base monthly rent and availability as of {AS_OF}. The rental page shows the current total, including the payment fee.</p>
@@ -564,15 +558,15 @@ def build_home():
     </div>
   </div>
 </section>
-<section class="section" aria-labelledby="shops-h">
+<section class="section" aria-labelledby="park-h">
   <div class="wrap split flip">
     <div class="photo-frame">{pic("exterior-red", 640, 917, "Storage building with red roll-up doors and a concrete apron at Midway Storage", 917, 650)}</div>
     <div>
-      <span class="kicker">Bigger than a unit</span>
-      <h2 id="shops-h">Shop space, a heated shop and outdoor parking</h2>
-      <p>Need room to work, not just to store? Midway also rents a 12 x 40 shop, a 42 x 42 heated shop and a 36 x 45 shop with 16-foot ceilings. Outdoor 8 x 25 spaces hold trailers and work rigs.</p>
-      <p>Shops fill up and usually run on a waitlist, so get your name on the list early.</p>
-      <div class="btn-row"><a class="btn btn-dark" href="/storage-units/#shops">See shop &amp; parking prices</a></div>
+      <span class="kicker">Outdoor parking</span>
+      <h2 id="park-h">A spot for the trailer, too</h2>
+      <p>Outdoor 8 x 25 spaces hold trailers and work rigs that just need a place to sit. They are open, unsecured spaces, not inside a building.</p>
+      <p>Parking can run on a waitlist, so get your name on the list early.</p>
+      <div class="btn-row"><a class="btn btn-dark" href="/storage-units/#parking">See parking prices</a></div>
     </div>
   </div>
 </section>
@@ -611,21 +605,20 @@ def build_home():
 </section>
 {cta_band("Got stuff that needs a home?", "Units from $" + UNITS["A"]["rent"] + " a month with 24/7 access and no long-term commitment.")}'''
     page("/", "Storage Units in Lovell, WY | Midway Storage",
-         "Drive-up storage units in Lovell, WY from 8x15 to 14x45, up to 15 ft tall, plus shops and parking. 24/7 access, no long-term contract, rent online.",
+         "Drive-up storage units in Lovell, WY from 8x15 to 14x45, up to 15 ft tall, plus outdoor parking. 24/7 access, no long-term contract, rent online.",
          body, current="/", door=True, preload="/assets/img/unit-l12-593.webp")
 
 
 def build_units():
     std = [u for u in C["units"] if not u.get("kind")]
     other = [u for u in C["units"] if u.get("kind")]
-    v = C["ventures"]
     rows = "".join(
         f'<tr><td>{html.escape(u["name"])}</td><td>{u["w"]} x {u["d"]}' + (f' x {u["h"]}' if u["h"] else "")
         + f' ft</td><td class="num">${u["rent"]}/mo</td>'
         + (f'<td class="st-rent">Open to rent</td></tr>' if u["status"] == "rent" else '<td class="st-wait">Waitlist</td></tr>')
         for u in C["units"])
     trail = [("Home", "/"), ("Units &amp; Prices", "/storage-units/")]
-    body = f'''{page_hero("Units &amp; prices", "Storage unit sizes and prices", f"Eleven drive-up unit sizes, three shops and outdoor parking at Midway Storage in Lovell. Prices below are base monthly rent as of {AS_OF}, before payment fees.", trail)}
+    body = f'''{page_hero("Units &amp; prices", "Storage unit sizes and prices", f"Eleven drive-up unit sizes and outdoor parking at Midway Storage in Lovell. Prices below are base monthly rent as of {AS_OF}, before payment fees.", trail)}
 <section class="section" aria-labelledby="std-h">
   <div class="wrap">
     <div class="section-head"><h2 id="std-h">Drive-up storage units</h2>
@@ -641,20 +634,11 @@ def build_units():
     <div class="units" data-units>{"".join(unit_card(u) for u in std)}</div>
   </div>
 </section>
-<section class="section section-concrete" id="shops" aria-labelledby="shops-h">
+<section class="section section-concrete" id="parking" aria-labelledby="park-h">
   <div class="wrap">
-    <div class="section-head"><span class="kicker">Shops &amp; parking</span><h2 id="shops-h">Shop space, warehouse and outdoor parking</h2>
-    <p>For contractors, ranch and farm equipment, or anyone who needs room to work.</p></div>
-    <div class="units">{"".join(unit_card(u, plan=False) for u in other)}
-      <article class="unit-card">
-        <div class="unit-top"><div><h3>{v["name"]}</h3><p class="unit-dims">{v["w"]} &times; {v["d"]} ft<small>{v["h"]} ft tall inside</small></p></div><span class="badge badge-rent">Open to rent</span></div>
-        <p class="unit-extra">At {v["street"]}, rented through Midway Ventures</p>
-        <div class="unit-price"><p class="price-main"><strong>${v["rent"]}</strong><span>/month</span></p><p class="price-ach">Before card or ACH payment fees</p></div>
-        <a class="btn btn-dark btn-sm" href="{VRENT}">Rent the warehouse</a>
-        <!-- TODO: confirm with owner how Midway Ventures LLC relates to Midway Storage, and whether to keep this card -->
-      </article>
-    </div>
-    <p class="note mt">Midway Ventures warehouse questions: <a href="tel:{C["venturesPhoneTel"]}">{C["venturesPhoneDisplay"]}</a>.</p>
+    <div class="section-head"><span class="kicker">Outdoor parking</span><h2 id="park-h">Outdoor parking</h2>
+    <p>Open 8 x 25 spaces for trailers and vehicles. They are unsecured and not inside a building.</p></div>
+    <div class="units">{"".join(unit_card(u, plan=False) for u in other)}</div>
   </div>
 </section>
 <section class="section" aria-labelledby="all-h">
@@ -680,7 +664,7 @@ def build_units():
 </section>
 {cta_band("Found your size?", "Rent it online now, or call and we will help you pick.")}'''
     page("/storage-units/", "Storage Unit Sizes & Prices in Lovell, WY | Midway",
-         f"Monthly prices for 11 drive-up storage unit sizes, shops and outdoor parking at Midway Storage in Lovell, WY. Rent or join a waitlist online.",
+         f"Monthly prices for 11 drive-up storage unit sizes and outdoor parking at Midway Storage in Lovell, WY. Rent or join a waitlist online.",
          body, current="/storage-units/", schema=[breadcrumb_schema(trail)])
 
 
@@ -742,7 +726,7 @@ def build_faq():
 </section>
 {cta_band("Still have a question?", "Call us, or look over every size and price before you rent.")}'''
     page("/faq/", "Storage FAQ | Midway Storage, Lovell WY",
-         "Answers about renting, 24/7 access, payments, waitlists, RV and boat fit, shops and parking at Midway Storage in Lovell, WY.",
+         "Answers about renting, 24/7 access, payments, waitlists, RV and boat fit, and parking at Midway Storage in Lovell, WY.",
          body, schema=[faq_schema(FAQ, SITE + "/faq/"), breadcrumb_schema(trail)])
 
 
@@ -807,23 +791,23 @@ TOWN_PAGES = {
         cta=("Get the camper out of the weather", "Rent an L or XL unit online, or join the waitlist for the next opening."),
     ),
     "greybull": dict(
-        title="Shop & Contractor Storage Near Greybull, WY | Midway",
-        desc="Shop space and storage near Greybull, WY, 36 minutes away. 12x40 shop, heated 42x42 shop, tall units for tools and equipment. 24/7 access.",
+        title="Contractor & Equipment Storage Near Greybull, WY | Midway",
+        desc="Contractor and equipment storage near Greybull, WY, 36 minutes away. 14-ft-wide drive-up units for tools, materials and trailers. 24/7 access.",
         kicker="Storage near Greybull",
-        h1="Shop space and storage near Greybull, Wyoming",
+        h1="Contractor and equipment storage near Greybull, Wyoming",
         intro="For contractors and small outfits around Greybull, Midway is a place for what won't fit in the pickup: tools, materials and equipment between jobs.",
         drive_head="36 minutes from Greybull",
         route=["Take US-310 north out of Greybull", "Follow it into Lovell", "Continue west through town to Midway Storage"],
         story_h="A place to park the gear between jobs",
-        story=["The 12 by 40 shop storage unit gives a crew room for a trailer, lumber racks and tool boxes in one spot. For bigger operations, the 42 by 42 heated shop means you can work on equipment in January without losing feeling in your hands.",
-               "Need clearance more than floor space? The S unit is 14 feet wide and 11 feet tall inside, a good fit for a skid steer on a trailer or a stack of material.",
-               "Open 24 hours, so an early start or a late return from a job site is never a problem. The shops tend to run on a waitlist, so sign up before you need one."],
-        units=["SHOP", "HEAT", "S"],
-        faq=[("Do you rent heated shop space?", "<p>Yes, a 42 x 42 heated shop with 13-foot ceilings. It usually has a waitlist, so sign up on the rental site.</p>", "greybull-heat"),
-             ("Can I store a work trailer?", "<p>Yes. A trailer fits in the 12 x 40 shop storage unit or an S unit, and 8 x 25 outdoor spaces are also available.</p>", "greybull-trailer"),
-             ("How do I get on the shop waitlist?", f'<p>Pick the shop on our <a href="{RENT}">rental site</a> and sign up for the waitlist there. You will be contacted when it opens.</p>', "greybull-waitlist")],
+        story=["The S unit is 14 feet wide, 26 feet deep and 11 feet tall inside, a good fit for a skid steer on a trailer or a stack of lumber and tool boxes in one spot.",
+               "When a crew needs more depth, the E unit runs 30 feet deep, so the trailer and the materials fit with room to walk around them.",
+               "Open 24 hours, so an early start or a late return from a job site is never a problem. Back the trailer to the door, load up and go."],
+        units=["S", "E", "PARK"],
+        faq=[("Can I store a work trailer?", "<p>Yes. A trailer fits in an S or E unit, and 8 x 25 outdoor spaces are also available for trailers that just need a spot to sit.</p>", "greybull-trailer"),
+             ("Can I get in early or late for a job?", "<p>Yes. Access is 24 hours a day, 7 days a week, with no gate and no code.</p>", "greybull-hours"),
+             ("What if the size I need is full?", f'<p>Pick the size on our <a href="{RENT}">rental site</a> and sign up for the waitlist there. You will be contacted when one opens.</p>', "greybull-waitlist")],
         review="Josh Paumer",
-        cta=("Get your equipment under a roof", "Join the shop waitlist or rent an S unit online today."),
+        cta=("Get your equipment under a roof", "Rent an S or E unit online today, or join the waitlist."),
     ),
     "basin": dict(
         title="Storage Units Near Basin, WY | Midway Storage",
@@ -846,7 +830,7 @@ TOWN_PAGES = {
     ),
     "bridger": dict(
         title="Equipment & Trailer Storage Near Bridger, MT | Midway",
-        desc="Equipment, trailer and side-by-side storage near Bridger, MT, 42 minutes south. 36x45 shop, 14-ft-tall units and outdoor parking.",
+        desc="Equipment, trailer and side-by-side storage near Bridger, MT, 42 minutes south. 14-ft-tall units up to 45 ft deep and outdoor parking.",
         kicker="Storage near Bridger",
         h1="Equipment and trailer storage near Bridger, Montana",
         intro="Ranch gear, side-by-sides and trailers need room. Midway Storage is 42 minutes south of Bridger on US-310, just over the Wyoming line.",
@@ -854,14 +838,14 @@ TOWN_PAGES = {
         route=["Head south on US-310 out of Bridger", "Cross into Wyoming at Frannie", "Continue through Deaver and Cowley to Midway Storage"],
         story_h="Space for what doesn't fit in the barn",
         story=["Out here a lot of what needs storing has wheels: the side-by-side, the stock trailer, the snowmobile sled. The M unit's 14-foot ceiling and 30-foot depth hold a side-by-side on its trailer with room for the gear behind it.",
-               "For a whole fleet, the 36 by 45 shop has 16-foot ceilings, enough to park a tractor or a hay truck inside. Outdoor 8 by 25 spaces hold trailers that just need a spot to sit.",
+               "For longer rigs, the XL unit runs 45 feet deep and 15 feet tall inside, with a 12 by 14 foot door. Outdoor 8 by 25 spaces hold trailers that just need a spot to sit.",
                "It's one straight road from Bridger, US-310, the whole way down. Renting and paying happen online, so you only make the drive when you need your equipment."],
-        units=["M", "BIG", "PARK"],
+        units=["M", "XL", "PARK"],
         faq=[("Do you take renters from Montana?", "<p>Yes. Renting and paying are done online, so it doesn't matter which side of the state line you live on.</p>", "bridger-mt"),
              ("Can I store a side-by-side or ATV?", "<p>Yes. A side-by-side fits in most of our units. The M unit is 14 feet wide and 14 feet tall, with room for the trailer too.</p>", "bridger-sxs"),
-             ("How big is your largest shop?", "<p>The largest shop is 36 x 45 feet with 16-foot ceilings. It usually runs on a waitlist.</p>", "bridger-shop")],
+             ("What is your largest unit?", "<p>The XL unit is 14 x 45 feet and 15 feet tall inside, with a door 12 feet wide and 14 feet tall.</p>", "bridger-xl")],
         review="Sonya Koltes",
-        cta=("Find a home for the equipment", "Rent online or get on the waitlist for the big shop."),
+        cta=("Find a home for the equipment", "Rent online or get on the waitlist for the next opening."),
     ),
     "billings": dict(
         title="Boat & Seasonal Storage for Billings, MT | Midway",
@@ -968,7 +952,7 @@ def build_root_files():
     pages = "\n".join(f"- {SITE}{p}" for p in PAGES)
     (PUB / "llms.txt").write_text(f"""# Midway Storage
 
-> Drive-up self storage units, shop space and outdoor parking on US-310 in Lovell, Wyoming (Big Horn Basin). Eleven unit sizes from 8x15 to 14x45 ft, up to 15 ft tall. 24/7 access, no long-term commitment, rent and pay online.
+> Drive-up self storage units and outdoor parking on US-310 in Lovell, Wyoming (Big Horn Basin). Eleven unit sizes from 8x15 to 14x45 ft, up to 15 ft tall. 24/7 access, no long-term commitment, rent and pay online.
 
 ## Business facts
 - Name: Midway Storage, a division of {C["legalName"]}
@@ -980,12 +964,11 @@ def build_root_files():
 - Payment: credit/debit card or ACH bank draft; prices listed are base rent and the rental site adds a payment fee (smaller for ACH); autopay available in the tenant portal
 - Rent a unit or join a waitlist: {C["rentUrl"]}
 - Tenant sign in / pay bill: {C["signInUrl"]}
-- Heated: only the 42x42 heated shop is listed as heated
+- Heated: the drive-up units are not heated
 - Google rating: {C["google"]["rating"]} from {C["google"]["count"]} reviews
 
 ## Units and monthly prices (as of {AS_OF})
 {units}
-- Midway Ventures warehouse (1781 US Highway 310, rented through Midway Ventures LLC): 36 x 45 x 16 ft, ${C["ventures"]["rent"]}/mo before payment fees: {C["venturesRentUrl"]}
 
 ## Drive times to the facility (fastest Google Maps route)
 {drives}

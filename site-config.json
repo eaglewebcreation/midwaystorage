@@ -13,9 +13,6 @@
   "lng": -108.4402523,
   "rentUrl": "https://midwaystorage.ccstorage.com/find_units/loc_5a534a739fbe3eda662020b16b544b64",
   "signInUrl": "https://midwaystorage.ccstorage.com/session/new",
-  "venturesRentUrl": "https://midwayventuresllc.ccstorage.com/find_units/loc_b07c6c20aebd052257591ce9104c7cea",
-  "venturesPhoneDisplay": "(307) 272-7444",
-  "venturesPhoneTel": "+13072727444",
   "pricesAsOf": "November 2026",
   "google": {
     "rating": "4.9",
@@ -153,43 +150,6 @@
       "rent": "225"
     },
     {
-      "id": "SHOP",
-      "name": "Shop storage",
-      "w": 12,
-      "d": 40,
-      "h": 12,
-      "card": "259.98",
-      "ach": "254.38",
-      "status": "waitlist",
-      "kind": "shop",
-      "rent": "250"
-    },
-    {
-      "id": "HEAT",
-      "name": "Heated shop",
-      "w": 42,
-      "d": 42,
-      "h": 13,
-      "card": "1,351.87",
-      "ach": "1,322.75",
-      "status": "waitlist",
-      "kind": "shop",
-      "note": "Heated",
-      "rent": "1,300"
-    },
-    {
-      "id": "BIG",
-      "name": "Large shop",
-      "w": 36,
-      "d": 45,
-      "h": 16,
-      "card": "1,710.64",
-      "ach": "1,673.79",
-      "status": "waitlist",
-      "kind": "shop",
-      "rent": "1,645"
-    },
-    {
       "id": "PARK",
       "name": "Outside parking",
       "w": 8,
@@ -203,16 +163,5 @@
       "rent": "75"
     }
   ],
-  "ventures": {
-    "name": "Midway Ventures warehouse",
-    "w": 36,
-    "d": 45,
-    "h": 16,
-    "card": "1,299.88",
-    "ach": "1,271.88",
-    "status": "rent",
-    "street": "1781 US Highway 310",
-    "rent": "1,250"
-  },
   "priceNote": "Base monthly rent before card or ACH payment fees. Owner (via Talon, Nov 21) confirmed A/C = $65; the rest backed out of CCStorage card totals (card = rent x 1.04, ACH = rent x 1.0175)."
 }

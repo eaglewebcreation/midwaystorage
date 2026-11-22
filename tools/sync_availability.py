@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Sync each unit's Open to rent / Waitlist status from the public CCStorage rental pages.
 
-Reads the two public "find units" pages (Midway Storage and Midway Ventures), finds each
+Reads the public Midway Storage "find units" page, finds each
 unit type by its CCStorage unit-type id, and reads whether its button says "Rent Now" or
 "Join Waiting List". Updates "status" in site-config.json only when every unit was read.
 
@@ -24,7 +24,6 @@ ROOT = Path(__file__).resolve().parent.parent
 CONFIG = ROOT / "site-config.json"
 
 STORAGE_URL = "https://midwaystorage.ccstorage.com/find_units/loc_5a534a739fbe3eda662020b16b544b64"
-VENTURES_URL = "https://midwayventuresllc.ccstorage.com/find_units/loc_b07c6c20aebd052257591ce9104c7cea"
 
 # site-config unit id -> CCStorage unit-type id (from the Rent Now / Join Waiting List links)
 STORAGE_TYPES = {
@@ -39,12 +38,8 @@ STORAGE_TYPES = {
     "M": "sut_c251ca667f50bbe522546cf66bc7f58b",
     "S": "sut_76263921f2cd70d1187e3286a4f03a93",
     "XL": "sut_6146cfc167c6e0ddffbd7e352731b49a",
-    "SHOP": "sut_a7c75da29271d6b12410c872f2088419",
-    "HEAT": "sut_df754bcd75d56487981756bc745fc229",
-    "BIG": "sut_3bd3f8c30e4fdd90a8cf1e2c0f8616d8",
     "PARK": "sut_647a3cd7344759d3c9cbb4f0f109a28d",
 }
-VENTURES_TYPE = "sut_79fc62e42b027741d8a8c5c8484f78e5"
 
 UA = "Mozilla/5.0 (compatible; MidwayStorageSiteSync/1.0)"
 
@@ -101,12 +96,9 @@ def read_page(url, wanted):
 def main():
     cfg = json.loads(CONFIG.read_text())
     storage, m1 = read_page(STORAGE_URL, STORAGE_TYPES)
-    ventures, m2 = read_page(VENTURES_URL, {"ventures": VENTURES_TYPE})
-    print(f"read storage page via {m1}, ventures page via {m2}")
+    print(f"read storage page via {m1}")
 
     missing = [k for k in STORAGE_TYPES if storage.get(k) is None]
-    if ventures.get("ventures") is None:
-        missing.append("ventures")
     if missing:
         print("COULD NOT READ: " + ", ".join(missing) + ". Keeping the last labels; nothing changed.")
         return 2
@@ -117,20 +109,15 @@ def main():
         if u["status"] != new:
             changes.append(f'{u["name"]}: {u["status"]} -> {new}')
             u["status"] = new
-    v = cfg["ventures"]
-    if v["status"] != ventures["ventures"]:
-        changes.append(f'{v["name"]}: {v["status"]} -> {ventures["ventures"]}')
-        v["status"] = ventures["ventures"]
 
     for u in cfg["units"]:
         print(f'  {u["id"]:5} {u["status"]}')
-    print(f'  {"VENT":5} {v["status"]}')
 
     if changes:
-        # Edit only the status values, in file order (units, then the Ventures warehouse),
+        # Edit only the status values, in file order,
         # so the rest of site-config.json stays exactly as written.
         text = CONFIG.read_text()
-        order = [u["status"] for u in cfg["units"]] + [v["status"]]
+        order = [u["status"] for u in cfg["units"]]
         spots = list(re.finditer(r'"status": "(rent|waitlist)"', text))
         if len(spots) != len(order):
             print(f"site-config.json has {len(spots)} status fields, expected {len(order)}; not writing.")
