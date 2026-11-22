@@ -636,7 +636,7 @@ def build_units():
 </section>
 <section class="section section-concrete" id="parking" aria-labelledby="park-h">
   <div class="wrap">
-    <div class="section-head"><span class="kicker">Outdoor parking</span><h2 id="park-h">Outdoor parking</h2>
+    <div class="section-head"><span class="kicker">Outdoor parking</span><h2 id="park-h">Trailer and vehicle parking</h2>
     <p>Open 8 x 25 spaces for trailers and vehicles. They are unsecured and not inside a building.</p></div>
     <div class="units">{"".join(unit_card(u, plan=False) for u in other)}</div>
   </div>
